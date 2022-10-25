@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 const NewQuote = () => {
     const history = useHistory();
     const addQuoteHandler = (quoteData) => {
-        history.push('/quotes'); history.
-        //' push allows users to go back, replace doesnt.
+        history.push('/quotes')
+        // ' push allows users to go back, replace doesnt.
     };
     return (
         <>
