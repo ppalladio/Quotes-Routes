@@ -3,6 +3,7 @@ import AllQuotes from './pages/AllQuotes';
 import NewQuote from './pages/NewQuote';
 import QuoteDetail from './pages/QuoteDetails';
 import Layout from './components/layout/Layout';
+import NotFound from './pages/NotFound';
 function App() {
     return (
         <Layout>
@@ -18,6 +19,10 @@ function App() {
                 </Route>
                 <Route path="/new-quote">
                     <NewQuote />
+                </Route>
+                <Route path="*">
+                    {/* //' path=* wiith match all the pages, so it has to be put on the past to math unfound pages */}
+                    <NotFound />
                 </Route>
             </Switch>
         </Layout>
