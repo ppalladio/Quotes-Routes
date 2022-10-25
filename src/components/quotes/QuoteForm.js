@@ -20,40 +20,52 @@ const QuoteForm = (props) => {
     }
 
     const [isEntering, setIsEntering] = useState(false);
+
+    const finishEnteringHandler = () => {
+        setIsEntering(false);
+    };
     const formFocushandler = () => {
         setIsEntering(true);
     };
-    const finishEnteringHandler =()=>{
-      setIsEntering(false)
-    }
     return (
-      <>
-      <Prompt when={isEntering} message={(location)=>{'leaving the page?'}}/>
-        <Card>
-            <form
-                onFocus={formFocushandler}
-                className={classes.form}
-                onSubmit={submitFormHandler}
-            >
-                {props.isLoading && (
-                    <div className={classes.loading}>
-                        <LoadingSpinner />
-                    </div>
-                )}
+        <>
+            <Prompt
+                when={isEntering}
+                message={(location) => {
+                    return 'leaving the page?';
+                }}
+            />
+            <Card>
+                <form
+                    onFocus={formFocushandler}
+                    className={classes.form}
+                    onSubmit={submitFormHandler}
+                >
+                    {props.isLoading && (
+                        <div className={classes.loading}>
+                            <LoadingSpinner />
+                        </div>
+                    )}
 
-                <div className={classes.control}>
-                    <label htmlFor="author">Author</label>
-                    <input type="text" id="author" ref={authorInputRef} />
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor="text">Text</label>
-                    <textarea id="text" rows="5" ref={textInputRef}></textarea>
-                </div>
-                <div className={classes.actions}>
-                    <button onClick={finishEnteringHandler} className="btn">Add Quote</button>
-                </div>
-            </form>
-        </Card>
+                    <div className={classes.control}>
+                        <label htmlFor="author">Author</label>
+                        <input type="text" id="author" ref={authorInputRef} />
+                    </div>
+                    <div className={classes.control}>
+                        <label htmlFor="text">Text</label>
+                        <textarea
+                            id="text"
+                            rows="5"
+                            ref={textInputRef}
+                        ></textarea>
+                    </div>
+                    <div className={classes.actions}>
+                        <button onClick={finishEnteringHandler} className="btn">
+                            Add Quote
+                        </button>
+                    </div>
+                </form>
+            </Card>
         </>
     );
 };
