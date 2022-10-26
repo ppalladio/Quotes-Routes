@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useParams, Route, Link, useRouteMatch } from 'react-router-dom';
 import Comments from '../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
 import useHttp from '../hooks/use-http';
 import { getSingleQuote } from '../lib/api';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 
 const init = [
     {
@@ -24,21 +26,36 @@ const init = [
 const QuoteDetail = () => {
     const match = useRouteMatch();
     const params = useParams();
+    console.log(useParams());
     const {
         sendRequest,
         status,
         data: loadedQuote,
         error,
     } = useHttp(getSingleQuote, true);
-    const quote = init.find((quote) => quote.id === params.quoteId);
-    if (!quote) {
+const {quoteId} = params
+    useEffect(() => {
+
+    
+      sendRequest(quoteId)
+    }, [sendRequest,quoteId])
+    if (status === 'pending') {
+        return <div className='centered'>
+            <LoadingSpinner/>
+        </div>
+    }
+
+    if (error) {
+        return {error}
+    }
+    if (!loadedQuote.text) {
         return <p>No quote found!</p>;
     }
     // console.log(quote.text);
     console.log(match);
     return (
         <>
-            <HighlightedQuote text={quote.text} author={quote.author} />
+            <HighlightedQuote text={loadedQuote.text} author={loadedQuote.author} />
             <Route path={match.path} exact>
                 <div className="centered">
                     <Link className="btn--flat" to={`${match.url}/comments`}>
