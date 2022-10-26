@@ -1,6 +1,9 @@
-import { useParams, Route, Link,useRouteMatch } from 'react-router-dom';
+import { useParams, Route, Link, useRouteMatch } from 'react-router-dom';
 import Comments from '../components/comments/Comments';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
+import useHttp from '../hooks/use-http';
+import { getSingleQuote } from '../lib/api';
+
 const init = [
     {
         id: 'q1',
@@ -10,17 +13,23 @@ const init = [
     {
         id: 'q2',
         author: 'Albert Einstein',
-        text: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe"
+        text: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe",
     },
     {
-        id:'q3',
-        author:'Frank Zappa',
-        text:'So many books, so little time.'
-    }
+        id: 'q3',
+        author: 'Frank Zappa',
+        text: 'So many books, so little time.',
+    },
 ];
 const QuoteDetail = () => {
-    const match = useRouteMatch()
+    const match = useRouteMatch();
     const params = useParams();
+    const {
+        sendRequest,
+        status,
+        data: loadedQuote,
+        error,
+    } = useHttp(getSingleQuote, true);
     const quote = init.find((quote) => quote.id === params.quoteId);
     if (!quote) {
         return <p>No quote found!</p>;
@@ -32,10 +41,7 @@ const QuoteDetail = () => {
             <HighlightedQuote text={quote.text} author={quote.author} />
             <Route path={match.path} exact>
                 <div className="centered">
-                    <Link
-                        className="btn--flat"
-                        to={`${match.url}/comments`}
-                    >
+                    <Link className="btn--flat" to={`${match.url}/comments`}>
                         Load Comments
                     </Link>
                 </div>
